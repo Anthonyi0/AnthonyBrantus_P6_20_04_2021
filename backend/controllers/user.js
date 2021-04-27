@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); 
 
-const User = require('../models/User'); // récupération du model
+const user = require('../models/user'); // récupération du model
 
 exports.signup = (request, response, next) => {
   bcrypt.hash(request.body.password, 10) // hashage *10 du password
     .then(hash => {              
-      const user = new User({
+      const user = new user({
         email: request.body.email,
         password: hash
       })

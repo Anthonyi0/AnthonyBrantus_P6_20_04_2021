@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); 
 
-const user = require('../models/user'); // récupération du model
+const user = require('../models/User'); // récupération du model
 
 exports.signup = (request, response, next) => {
   bcrypt.hash(request.body.password, 10) // hashage *10 du password
@@ -19,7 +19,7 @@ exports.signup = (request, response, next) => {
     .catch(error => response.status(500).json({ error }))
 }
 exports.login = (request, response, next) => {
-  User.findOne({ email: request.body.email })
+  user.findOne({ email: request.body.email })
     .then(user => {
       if (!user) {
         return response.status(401).json({ error: 'Utilisateur non trouvé !' });
@@ -33,7 +33,7 @@ exports.login = (request, response, next) => {
             userId: user._id,
             token: jwt.sign(  // ".sign" permet d'encoder un nouveau token
               { userId: user._id, },
-              'RANDOM_TOKEN_SECRET', // encodage
+              process.env.TOKEN, // encodage
               { expiresIn: '24h' }
             )
           });

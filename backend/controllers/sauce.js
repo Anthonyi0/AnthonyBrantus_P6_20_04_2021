@@ -38,14 +38,14 @@ exports.getOneSauce = (request, response, next) => {
       .then(sauce => response.status(200).json(sauce))
       .catch(error => response.status(404).json({ error }));
 };
-exports.getAllSauces = (request, response, next) => {
+exports.getAllSauce = (request, response, next) => {
     Sauce.find()
-      .then(sauce => response.status(200).json(sauce))
+      .then((sauces) => {response.status(200).json(sauces);})  
       .catch(error => response.status(400).json({ error }));
 };
 // fonction d'évaluation des sauces (like ou dislike)
 // 3 conditions possible la valeur du like est soit: 0, 1 ou -1
-exports.rateOneSauce = (request, response, next) => {
+exports.likeSauce = (request, response, next) => {
     switch (request.body.like) { 
       case 0://cas: request.body.like = 0
         Sauce.findOne({ _id: request.params.id })

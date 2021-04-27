@@ -24,7 +24,7 @@ exports.login = (request, response, next) => {
       if (!user) {
         return response.status(401).json({ error: 'Utilisateur non trouvé !' });
       }
-      bcrypt.compare(request.body.password, user.password) // on compare le password entrez et celui dans le body
+      bcrypt.compare(request.body.password, user.password) // on compare le password entrez et celui dans la base de donnée 
         .then(valid => {
           if (!valid) {
             return response.status(401).json({ error: 'Mot de passe incorrect !' });
@@ -33,7 +33,7 @@ exports.login = (request, response, next) => {
             userId: user._id,
             token: jwt.sign(  // ".sign" permet d'encoder un nouveau token
               { userId: user._id, },
-              process.env.TOKEN, // encodage
+                process.env.TOKEN, // encodage
               { expiresIn: '24h' }
             )
           });

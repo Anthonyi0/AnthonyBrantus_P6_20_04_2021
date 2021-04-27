@@ -5,12 +5,11 @@ const modelsUser = require('../models/User');
 module.exports = async (request, response, next) => {
   try {
     const token = request.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const user = await modelsUser.findOne({ where: { user_id: decodedToken.user_id } })
-    if (!user) {
+    const decodedToken = jwt.verify(token,process.env.TOKEN);
+    const userId = decodedToken.userId;
+    if (request.body.userId && request.body.userId !== userId) {
       throw 'Invalid user ID';
     } else {
-      request.user = user
       next();
     }
   } catch {

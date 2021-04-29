@@ -1,6 +1,5 @@
 // importation des plugins
 const jwt = require('jsonwebtoken');
-const modelsUser = require('../models/User');
 
 module.exports = async (request, response, next) => {
   try {

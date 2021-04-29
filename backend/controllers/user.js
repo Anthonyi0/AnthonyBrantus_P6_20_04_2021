@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); 
 
-const user = require('../models/User'); // récupération du model
+const User = require('../models/User'); // récupération du model
 
 exports.signup = (request, response, next) => {
   bcrypt.hash(request.body.password, 10) // hashage *10 du password
     .then(hash => {              
-      const user = new user({
+      const user = new User({
         email: request.body.email,
         password: hash
       })
@@ -19,7 +19,7 @@ exports.signup = (request, response, next) => {
     .catch(error => response.status(500).json({ error }))
 }
 exports.login = (request, response, next) => {
-  user.findOne({ email: request.body.email })
+  User.findOne({ email: request.body.email })
     .then(user => {
       if (!user) {
         return response.status(401).json({ error: 'Utilisateur non trouvé !' });

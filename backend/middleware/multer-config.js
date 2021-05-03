@@ -15,6 +15,9 @@ const storage = multer.diskStorage({
   filename: (request, file, callback) => {    
     const name = file.originalname.split(' ').join('_');// utiliser le nom d'origine, remplacer les espace par des underscor
     const extension = MIME_TYPES[file.mimetype]; // utilise le dictionnaire MIME pour trouver la bonne extension
+    if(extension === undefined){
+      throw new Error("extention du fichier invalide")
+    }
     callback(null, name + Date.now() + '.' + extension);// on definie les parametres du call back
   }
 });

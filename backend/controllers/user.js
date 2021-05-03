@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); 
-
 const User = require('../models/User'); // récupération du model
 
 exports.signup = (request, response, next) => {
@@ -19,7 +18,7 @@ exports.signup = (request, response, next) => {
     .catch(error => response.status(500).json({ error }))
 }
 exports.login = (request, response, next) => {
-  User.findOne({ email: request.body.email })
+  User.findOne({ email: request.body.email })//recherche l'email dans la base de donnée
     .then(user => {
       if (!user) {
         return response.status(401).json({ error: 'Utilisateur non trouvé !' });
